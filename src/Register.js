@@ -65,10 +65,10 @@ const Register = () => {
         <label htmlFor="username">
           Username:
           <span className={validName ? "valid" : "hide"}>
-            <FontAwesomeIcon icon={faCheck} color="green" />{" "}
+            <FontAwesomeIcon icon={faCheck} color="green" />
           </span>
           <span className={validName || !user ? "hide" : "invalid"}>
-            <FontAwesomeIcon icon={faTimes} color="red" />{" "}
+            <FontAwesomeIcon icon={faTimes} color="red" />
           </span>
         </label>
         <input
@@ -100,6 +100,49 @@ const Register = () => {
           Must begin with a letter. <br />
           Letters, numbers, underscores, hypens allowed
         </p>
+
+        <label htmlFor="password">
+          Password:
+          <span className={validPwd ? "valid" : "hide"}>
+            <FontAwesomeIcon icon={faCheck} color="green" />
+          </span>
+          <span className={validPwd || !pwd ? "hide" : "invalid"}>
+            <FontAwesomeIcon icon={faTimes} color="red" />
+          </span>
+        </label>
+        <input
+          type="password"
+          id="password"
+          onChange={(e) => {
+            setPwd(e.target.value);
+          }}
+          required
+          aria-invalid={validPwd ? "false" : "true"}
+          aria-descirbedby="pwdnote"
+          onFocus={() => {
+            setPwdFocus(true);
+          }}
+          onBlur={() => {
+            setPwdFocus(false);
+          }}
+        />
+        <p
+          id="pwdnote"
+          className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+        >
+          <FontAwesomeIcon icon={faInfoCircle} />
+          8 to 24 characters.
+          <br />
+          Must include uppercase and lowercase letters, a number and a special
+          character <br />
+          Allowed special characters : {""}
+          <span aria-label="exclamation mark">!</span>
+          <span aria-label="at symbol">@</span>
+          <span aria-label="hashtag">#</span>
+          <span aria-label="dollor sign">$</span>
+          <span aria-label="percent">%</span>
+        </p>
+
       </form>
     </section>
   );
