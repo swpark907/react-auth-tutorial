@@ -5,9 +5,11 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "./axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = './register'
 
 const Register = () => {
   const userRef = useRef();
@@ -65,6 +67,17 @@ const Register = () => {
 
     console.log(user, pwd);
     setSuccess(true);
+
+    try{
+      const response = await axios.post(REGISTER_URL,
+        JSON.stringify({user, pwd}),
+        {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: true
+        }  )
+    } catch (err) {
+      
+    }
   };
 
   return (
@@ -85,10 +98,10 @@ const Register = () => {
           >
             {errMsg}
           </p>
-          <h1>Register</h1>
+          <h1>회원가입</h1>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">
-              Username:
+              아이디
               <span className={validName ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} color="green" />
               </span>
@@ -127,7 +140,7 @@ const Register = () => {
             </p>
 
             <label htmlFor="password">
-              Password:
+              비밀번호
               <span className={validPwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} color="green" />
               </span>
@@ -169,7 +182,7 @@ const Register = () => {
             </p>
 
             <label htmlFor="confirm_pwd">
-              Confirm Password:
+              비밀번호 확인
               <span className={validMatch && matchPwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} color="green" />
               </span>
@@ -196,7 +209,7 @@ const Register = () => {
             <p
               id="confirmnote"
               className={
-                matchFocus && validMatch ? "instructions" : "offscreen"
+                matchFocus && !validMatch ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
