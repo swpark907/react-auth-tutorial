@@ -5,12 +5,13 @@ import Register from "./Register";
 import Login from "./Login";
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isRegister, setIsRegister] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <main className="App">
       <div className="container">
-        {isLogin ? <Login /> : <Register setIsLogin={setIsLogin} />}
+        {isRegister ? <Login setIsLogin={setIsLogin} /> : <Register setIsRegister={setIsRegister} />}
       </div>
     </main>
   );
