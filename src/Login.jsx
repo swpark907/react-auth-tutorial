@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const Login = () => {
+const Login = ({setIsLogin}) => {
   const loginUserRef = useRef();
   const loginErrRef = useRef();
 
@@ -9,7 +9,21 @@ const Login = () => {
   const [loginErrMsg, setLoginErrMsg] = useState('');
   const [loginSuccess, setLoginSuccess] = useState();
 
-  
+  const handleLoginSubmit = async () => {
+
+    console.log(loginUser);
+    console.log(loginPwd)
+
+    try{
+      // const response = await 
+      setIsLogin(true);
+    } catch (err) {
+      setLoginErrMsg('일치하는 ID/PW가 없습니다.')
+      return;
+    }
+
+    
+  }
 
   return (
     <section>
