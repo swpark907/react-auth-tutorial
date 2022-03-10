@@ -32,20 +32,17 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
+    // 페이지가 렌더링 되었을 때 userRef에 포커스 되도록
     userRef.current.focus();
   }, []);
 
   useEffect(() => {
     const result = USER_REGEX.test(user);
-    console.log({ result });
-    console.log({ user });
     setValidName(result);
   }, [user]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log({ result });
-    console.log({ pwd });
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -66,7 +63,6 @@ const Register = () => {
     }
 
     console.log(user, pwd);
-    setSuccess(true);
 
     try{
       const response = await axios.post(REGISTER_URL,
@@ -74,9 +70,22 @@ const Register = () => {
         {
           headers: {'Content-Type': 'application/json'},
           withCredentials: true
-        }  )
+        }
+      );
+      console.log(response.data);
+      console.log(response.accessToken);
+      console.log(JSON.stringify(response))
+      setSuccess(true);
+      // clear input fields
     } catch (err) {
-      
+      if(!err?.response) {
+        setErrMsg('No Server Response');
+      } else if(err.response?.statut === 409){
+        setErrMsg('Username Taken');
+      } else{
+        setErrMsg('Registration Failed')
+      }
+      errRef.current.focus();
     }
   };
 
@@ -134,6 +143,7 @@ const Register = () => {
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
+              {" "}
               글자수를 4~24로 맞춰주세요. <br />
               영어 알파벳으로 시작해야합니다. <br />
               가능한 문자 : 알파벳, 숫자, _ , -
@@ -169,6 +179,7 @@ const Register = () => {
               className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
+              {" "}
               글자수를 8~24로 맞춰주세요
               <br />
               영어 대문자, 소문자, 숫자, 특수문자를 반드시 포함시켜야 합니다.{" "}
@@ -213,6 +224,7 @@ const Register = () => {
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
+              {" "}
               비밀번호와 일치해야합니다.
             </p>
 
@@ -224,8 +236,7 @@ const Register = () => {
           </form>
 
           <p>
-            이미 회원가입 하셨나요?
-            <br />
+            이미 회원가입 하셨나요?            
             <span className="line">
               {/* 라우터 링크 */}
               <a href="#">로그인하기</a>
