@@ -46,13 +46,15 @@ label {
 }
 
 input {
+  border-radius: 8px;
+  outline: none;
+  border: none;
   margin-bottom: 10px;
-  padding: 8px;
+  padding: 10px;
   font-size: 15px;
 }
 
 button{
-  max-width: 100px;
   margin: auto;
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
